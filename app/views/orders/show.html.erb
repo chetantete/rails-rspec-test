@@ -1,0 +1,25 @@
+<p id="notice">
+  <%= notice %>
+</p>
+<p>
+  <strong>Delivery time:</strong>
+  <%= @order.delivery_time %>
+</p>
+<p>
+  <strong>Status:</strong>
+  <%= @order.status %>
+</p>
+<p>
+  <strong>Product:</strong>
+  <%= @order.product.name %>
+</p>
+<p>
+  <strong>Customer:</strong>
+  <%= @order.customer.name %>
+</p>
+<p>
+  <strong>Address:</strong>
+  <%= @order.customer.address %>
+</p>
+
+<%= link_to 'Back', orders_path(date: @order.delivery_time.to_date) %>

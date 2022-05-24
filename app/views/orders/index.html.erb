@@ -1,0 +1,52 @@
+<p id="notice">
+  <%= notice %>
+</p>
+<h1>
+  <%= "Orders for #{@date}" %>
+</h1>
+<div>
+  <%= link_to "Previous Date", orders_path(date: @date - 1.day) %>
+  |
+  <%= link_to "Next Date", orders_path(date: @date + 1.day) %>
+</div>
+<hr/>
+<% if @orders.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Delivery time</th>
+        <th>Status</th>
+        <th>Customer</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td>
+            <%= order.delivery_time %>
+          </td>
+          <td>
+            <%= order.status %>
+          </td>
+          <td>
+            <%= order.customer.name %>
+          </td>
+          <td>
+            <%= order.product_name %>
+          </td>
+          <td>
+            <%= number_to_currency order.product.price %>
+          </td>
+          <td>
+            <%= link_to 'Show', order %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h4>No orders for this day</h4>
+<% end %>
