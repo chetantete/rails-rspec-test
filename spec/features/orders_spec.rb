@@ -10,6 +10,11 @@ RSpec.describe "Orders" do
 
   describe "#index" do
     context "with orders" do
+      before do
+       another_product = create(:product)
+       create(:order, delivery_time: datetime, product: another_product)
+      end
+
       it "lists the orders" do
         order
         visit orders_path(date: date)

@@ -17,8 +17,4 @@ class Order < ApplicationRecord
 
   FIRST_DELIVERY_HOUR = 8
   LAST_DELIVERY_HOUR = 19
-
-  def product_name
-    Product.first.name
-  end
 end

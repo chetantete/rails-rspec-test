@@ -6,6 +6,7 @@ class OrdersController < ApplicationController
     set_date
     @orders = Order.where(Order.arel_table[:delivery_time].gteq(@date.beginning_of_day))
                    .where(Order.arel_table[:delivery_time].lteq(@date.end_of_day))
+                   .includes(:customer, :product)
                    .order(:delivery_time)
   end
 
