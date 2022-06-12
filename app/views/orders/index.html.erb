@@ -56,3 +56,18 @@
 <% else %>
   <h4>No orders for this day</h4>
 <% end %>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".cancel-order").click(function(){
+    id = "cancelModal"+this.id.split('#')[1]
+    $("#"+id).css("display", "block");
+
+  });
+
+  $('.close').click(function(){
+     $('.modal').css("display", "none");
+
+  })
+});
+</script>
