@@ -4,7 +4,7 @@
 class SlotsController < ApplicationController
   def index
     set_date
-    set_orders_data
+    set_orders
   end
 
   private
@@ -17,7 +17,7 @@ class SlotsController < ApplicationController
             end
   end
 
-  def set_orders_data
+  def set_orders
     @data = {}
 
     [*@date.beginning_of_week..@date.end_of_week].each do |date|
