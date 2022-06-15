@@ -13,7 +13,7 @@
       <th>
         Hour
       </th>
-      <% [*@date.beginning_of_week..@date.end_of_week].each do |date| %>
+      <% @data.each do |date, values| %>
         <th>
           <%= date %>
         </th>
@@ -26,15 +26,14 @@
         <th>
           <%= hour %>
         </th>
-        <% [*@date.beginning_of_week..@date.end_of_week].each do |date| %>
-          <td>
-            <% Order.to_prepare(date.to_datetime.change(hour: hour - 1)).map { |order| [order.product.id, order.product.name] }.sort { |a, b| a[1] <=> b[1] }.uniq.each do |products| %>
-              <%= Product.find(products[0]).name %>
-              <%= Order.to_prepare(date.to_datetime.change(hour: hour - 1)).by_product(products[0]).length %>
-              <br/>
-            <% end %>
-          </td>
-        <% end %>
+          <% @data.each do |date, values| %>
+            <td>
+              <% @data[date][hour].each do |key, value| %>
+                <%= key %> <%= value %>
+                </br>
+              <% end %>
+             </td>
+          <% end %>
       </tr>
     <% end %>
   </tbody>
