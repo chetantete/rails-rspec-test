@@ -20,6 +20,7 @@
         <th>Product</th>
         <th>Price</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -43,6 +44,11 @@
           <td>
             <%= link_to 'Show', order %>
           </td>
+          <% if order.todo? %>
+            <td>
+               <%= render 'cancel_form',  :order => order %>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
@@ -50,3 +56,18 @@
 <% else %>
   <h4>No orders for this day</h4>
 <% end %>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".cancel-order").click(function(){
+    id = "cancelModal"+this.id.split('#')[1]
+    $("#"+id).css("display", "block");
+
+  });
+
+  $('.close').click(function(){
+     $('.modal').css("display", "none");
+
+  })
+});
+</script>
