@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_27_205942) do
+ActiveRecord::Schema.define(version: 2022_06_12_204942) do
 
   create_table "customers", force: :cascade do |t|
     t.string "name"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2018_11_27_205942) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "delivery_time"
+    t.text "comment"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
     t.index ["product_id"], name: "index_orders_on_product_id"
   end
