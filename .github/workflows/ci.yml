@@ -1,0 +1,59 @@
+name: Continuous Integration
+
+on:
+  pull_request: {}
+  push:
+    branches:
+      - main
+
+jobs:
+  rspec:
+    name: Run RSpec Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DATABASE: rails_test
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7.0
+
+    - name: Install dependencies
+      run: |
+        bundle install --jobs 4 --retry 3
+
+    - name: Check PostgreSQL Service
+      run: |
+        service postgresql status
+
+    - name: Connect to PostgreSQL
+      run: |
+        bundle exec rails db:drop RAILS_ENV=test
+        bundle exec rails db:create RAILS_ENV=test
+        bundle exec rails db:schema:load RAILS_ENV=test
+
+    - name: Run RSpec tests
+      env:
+        RAILS_ENV: test
+      run: |
+        bundle exec rspec
