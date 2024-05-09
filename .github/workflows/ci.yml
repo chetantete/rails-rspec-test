@@ -40,10 +40,6 @@ jobs:
       run: |
         bundle install --jobs 4 --retry 3
 
-    - name: Check PostgreSQL Service
-      run: |
-        service postgresql status
-
     - name: Connect to PostgreSQL
       run: |
         rails db:schema:load
