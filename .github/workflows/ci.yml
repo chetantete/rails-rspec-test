@@ -2,9 +2,7 @@ name: Continuous Integration
 
 on:
   pull_request: {}
-  push:
-    branches:
-      - main
+  push: {}
 
 jobs:
   rspec:
@@ -13,21 +11,21 @@ jobs:
 
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:11-alpine
+        ports:
+          - "5432:5432"
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_DATABASE: rails_test
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5432
-
+          POSTGRES_DB: rails_test
+          POSTGRES_USER: rails
+          POSTGRES_PASSWORD: password        
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 5432:5432
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
 
     steps:
     - name: Checkout code
@@ -48,9 +46,7 @@ jobs:
 
     - name: Connect to PostgreSQL
       run: |
-        bundle exec rails db:drop RAILS_ENV=test
-        bundle exec rails db:create RAILS_ENV=test
-        bundle exec rails db:schema:load RAILS_ENV=test
+        rails db:schema:load
 
     - name: Run RSpec tests
       env:
