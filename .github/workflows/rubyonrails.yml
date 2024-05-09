@@ -35,11 +35,11 @@ jobs:
           ruby-version: 2.7.0
       # Add or replace database setup steps here
       - name: Create Databse
-        run: bin/rails db:create
+        run: bundle exec rails db:create RAILS_ENV=test
       - name: Migrate DB
-        run: bin/rails db:migrate        
+        run: bundle exec rails db:migrate RAILS_ENV=test      
       - name: Set up database schema
-        run: bin/rails db:schema:load
+        run: bundle exec rails db:schema:load
       # Add or replace test runners here
       - name: Run tests
         run: bundle exec rspec
