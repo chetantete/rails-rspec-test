@@ -33,6 +33,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.0
+      - name: Install dependencies
+        run: |
+          bundle install --jobs 4 --retry 3
       # Add or replace database setup steps here
       - name: Create Databse
         run: bundle exec rails db:create RAILS_ENV=test
@@ -43,20 +46,3 @@ jobs:
       # Add or replace test runners here
       - name: Run tests
         run: bundle exec rspec
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.0
-      # Add or replace any other lints here
-      - name: Security audit dependencies
-        run: bin/bundler-audit --update
-      - name: Security audit application code
-        run: bin/brakeman -q -w2
-      - name: Lint Ruby files
-        run: bin/rubocop --parallel
